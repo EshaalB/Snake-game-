@@ -3,7 +3,7 @@ import time
 import random
 
 # Constants
-size = 40 # image ka size 40 tha
+size = 40 
 initial_length = 3
 
 # Game Class
@@ -11,7 +11,7 @@ class Game:
     def __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode((1000, 800)) #resolution(height, width)
-        pygame.display.set_caption("Snake Game") # bar mein likha hoga
+        pygame.display.set_caption("Snake Game")  
 
         # Game states and features -> flag is good practice
         self.score = 0
@@ -21,7 +21,7 @@ class Game:
         self.direction = 'Down' # ball up
 
         # Snake
-        self.block = pygame.image.load("img/block.jpg") # to load img, snake pic, block ka size hoga
+        self.block = pygame.image.load("img/block.jpg") # to load img, 
         self.block_x = [size] * initial_length # essential for collision detection
         self.block_y = [size] * initial_length # array cz snake has multiple blocks
 
@@ -45,7 +45,7 @@ class Game:
         self.block_x[0] += size
 
     def handle_movement(self, event): # automatic key detection in pygame
-        if event.key == pygame.K_UP and self.direction != 'Down': # extra but better cz already defined upar
+        if event.key == pygame.K_UP and self.direction != 'Down': # extra but better cz already defined  
             self.direction = 'Up'
         elif event.key == pygame.K_DOWN and self.direction != 'Up':
             self.direction = 'Down'
@@ -54,8 +54,8 @@ class Game:
         elif event.key == pygame.K_RIGHT and self.direction != 'Left':
             self.direction = 'Right'
 
-    def checkDirection(self): # main thing oh
-        for i in range(len(self.block_x) - 1, 0, -1): # reverse loop, in case of lambi body
+    def checkDirection(self): # main thing  
+        for i in range(len(self.block_x) - 1, 0, -1): # reverse loop, in case of long body
             self.block_x[i] = self.block_x[i - 1]
             self.block_y[i] = self.block_y[i - 1]
 
@@ -69,35 +69,35 @@ class Game:
             self.move_right()
 
     #
-    def checkCollision(self): # very simple acc to eshaal -> remember resolution
+    def checkCollision(self): #   remember resolution
         if self.block_x[0] < 0 or self.block_y[0] < 0 or self.block_x[0] >= 1000 or self.block_y[0] >= 800: # last row, last column
             self.game_over() # edges
         for i in range(1, len(self.block_x)):
             if self.block_x[0] == self.block_x[i] and self.block_y[0] == self.block_y[i]:
-                self.game_over() # apni body mein se thuk ho gya ho
+                self.game_over() 
 
     def randomApple(self):
-        apple_x = random.randint(0, (1000 // size) - 1) * size # apple x or y screen k andar rhe
+        apple_x = random.randint(0, (1000 // size) - 1) * size # apple x or y inside screen 
         apple_y = random.randint(0, (800 // size) - 1) * size
         return apple_x, apple_y
 
     def collectApple(self):
         if self.block_x[0] == self.apple_x and self.block_y[0] == self.apple_y:
-            self.block_x.append(self.block_x[-1]) # end par attach
+            self.block_x.append(self.block_x[-1])  
             self.block_y.append(self.block_y[-1])
             self.score += 1
             self.apple_x, self.apple_y = self.randomApple() # new apple
 
     def displayScore(self): # graphic part
         font = pygame.font.SysFont("comicsans", 20)
-        playerScore = font.render("Score: %d" % self.score, True, (255, 255, 255)) # rgb colors always, purple?!
+        playerScore = font.render("Score: %d" % self.score, True, (255, 255, 255)) 
         self.screen.blit(playerScore, (10, 10))
 
-    # Main Game Features -> wohi yar wohi
+    # Main Game Features  
 
     def handle_events(self):
         for event in pygame.event.get():
-            if event.type == pygame.QUIT: # pygame topp, exit kar sakein
+            if event.type == pygame.QUIT:  
                 self.running = False # game over
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -117,7 +117,7 @@ class Game:
             self.screen.blit(self.block, (self.block_x[i], self.block_y[i]))
         self.screen.blit(self.apple, (self.apple_x, self.apple_y)) # blit is print
         self.displayScore()
-        pygame.display.update() # imppp
+        pygame.display.update() # imp
 
     # Game run
     def run(self):
@@ -132,11 +132,11 @@ class Game:
                     self.checkCollision()
                     self.update_screen()
 
-                    time.sleep(0.17) # delay, slow snake, millisecond
-        pygame.quit() # PYGAME ka func
+                    time.sleep(0.17) # delay, slow snake, seconds
+        pygame.quit()  
 
     # Game Start
-    def startScreen(self): # designing
+    def startScreen(self):
         self.screen.fill((137, 119, 181))
         font = pygame.font.SysFont("comicsans", 60)
         title = font.render("Snake Game", True, (255, 255, 255))
@@ -187,6 +187,6 @@ class Game:
                         pygame.quit()
                         quit()
 # Entry point
-if __name__ == "__main__": # you with me kaneez? JEEE, statement which is always true to start main
+if __name__ == "__main__": 
     game = Game() #game is object
     game.run()
